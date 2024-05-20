@@ -36,9 +36,41 @@ class TransaksiKeluarController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Barang $barangs)
     {
-        //
+        $request->validate([
+            'kode_barang' => 'required',
+        ]);
+
+         $barang = Barang::where('kode_barang', $request->kode_barang)->first();
+
+        if (!$barang) {
+            return back()->withErrors(['kode_barang' => 'Kode barang tidak ditemukan.'])->withInput();
+        }
+
+        $stok = $barang->jumlah; // Misalnya kolom stok di tabel barang adalah 'stok'
+
+        // Validasi lengkap dengan jumlah harus kurang dari atau sama dengan stok
+        $request->validate([
+            'kode_barang' => 'required',
+            'nama_barang' => 'required',
+            'kategori' => 'required',
+            'jumlah' => 'required|numeric|min:1|max:' . $stok,
+        ]);
+
+         $barang->update([
+        'jumlah' => $stok - $request->jumlah,
+        ]);
+
+        Transaksi::create([
+            'barangs_id'=>$barang->id,
+            'tanggal_transaksi'=>date('Y-m-d'),
+            'faktur'=>'INV-'.date('ymdhis'),
+            'jumlah'=>$request->jumlah,
+            'status_transaksi'=>2,
+            'users_id'=>2,
+        ]);
+        return redirect()->route('transaksikeluar.index');
     }
 
     /**

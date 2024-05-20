@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PDFController;
 use App\Http\Controllers\SatuanController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\TransaksiKeluarController;
@@ -41,6 +43,11 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('transaksimasuk', BarangController::class);
     Route::resource('transaksikeluar', TransaksiKeluarController::class);
     Route::get('getdata',[TransaksiKeluarController::class,'getBarang']);
+    Route::get('laporan', [LaporanController::class, 'index']);
+    Route::get('laporanmasuk', [LaporanController::class, 'laporanmasuk']);
+    Route::get('laporankeluar', [LaporanController::class, 'laporankeluar']);
+    Route::get('generate-pdf', [PDFController::class, 'generatePDF']);
+
 
     // Tambahkan rute lain yang memerlukan autentikasi di sini
 });
