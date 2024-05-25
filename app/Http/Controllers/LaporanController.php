@@ -17,7 +17,7 @@ class LaporanController extends Controller
         ->select('transaksis.*', 'barangs.kode_barang', 'barangs.nama_barang', 'kategoris.kategori', 'satuans.satuan')
         ->get();
 
-        return view('laporan.laporan', compact('laporans'))->with('no',1)->with('title','Laporan');
+        return view('laporan.laporan', compact('laporans'))->with('no',1)->with('title','Laporan')->with('id',0);
     }
     public function laporanmasuk() {
         // $laporans = Transaksi::all();
@@ -29,7 +29,7 @@ class LaporanController extends Controller
         ->select('transaksis.*', 'barangs.kode_barang', 'barangs.nama_barang', 'kategoris.kategori', 'satuans.satuan')
         ->get();
 
-        return view('laporan.laporan', compact('laporans'))->with('no',1)->with('title','Laporan Masuk');
+        return view('laporan.laporan', compact('laporans'))->with('no',1)->with('title','Laporan Masuk')->with('id',1);
     }
     public function laporankeluar() {
         // $laporans = Transaksi::all();
@@ -41,6 +41,6 @@ class LaporanController extends Controller
         ->select('transaksis.*', 'barangs.kode_barang', 'barangs.nama_barang', 'kategoris.kategori', 'satuans.satuan')
         ->get();
 
-        return view('laporan.laporan', compact('laporans'))->with('no',1)->with('title','Laporan Keluar');
+        return view('laporan.laporan', compact('laporans'))->with('no',1)->with('title','Laporan Keluar')->with('id',2);
     }
 }

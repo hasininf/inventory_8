@@ -64,7 +64,7 @@ class TransaksiKeluarController extends Controller
 
         Transaksi::create([
             'barangs_id'=>$barang->id,
-            'tanggal_transaksi'=>date('Y-m-d'),
+            'tanggal_transaksi'=>date('Y-m-d H:i:s'),
             'faktur'=>'INV-'.date('ymdhis'),
             'jumlah'=>$request->jumlah,
             'status_transaksi'=>2,
