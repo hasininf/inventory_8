@@ -7,6 +7,7 @@ use App\Models\Kategori;
 use App\Models\Satuan;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BarangController extends Controller
 {
@@ -15,8 +16,10 @@ class BarangController extends Controller
      */
     public function index()
     {
+        // $laporans = Transaksi::all();
         $barangs = Barang::all();
-        return view('transaksi.transaksi', compact('barangs'))->with('no', 1);
+
+        return view('barang.data', compact('barangs'))->with('no',1)->with('title','Data Barang')->with('id',0);
     }
 
     /**
@@ -24,9 +27,6 @@ class BarangController extends Controller
      */
     public function create()
     {
-        $kategoris = Kategori::all();
-        $satuans = Satuan::all();
-        return view('transaksi.transaksi_add', compact('kategoris','satuans'));
     }
 
     /**
@@ -34,35 +34,6 @@ class BarangController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-
-        $request->validate([
-            'kode_barang' => 'required|unique:barangs,kode_barang',
-            'nama_barang' => 'required|unique:barangs,nama_barang',
-            'kategori_barang' => 'required',
-            'jumlah' => 'required|numeric',
-            'satuan_barang' => 'required',
-        ]);
-
-        $barangs=Barang::create([
-            'kode_barang' => $request->kode_barang,
-            'nama_barang' =>  $request->nama_barang,
-            'kategoris_id' =>  $request->kategori_barang,
-            'jumlah' =>  $request->jumlah,
-            'satuans_id' =>  $request->satuan_barang,
-            'status_barang'=>1,
-        ]);
-
-        Transaksi::create([
-            'barangs_id'=>$barangs->id,
-            'tanggal_transaksi'=>'1',
-            'faktur'=>'1',
-            'jumlah'=>$request->jumlah,
-            'status_transaksi'=>1,
-            'users_id'=>1,
-        ]);
-
-        return redirect()->route('transaksimasuk.index')->with('success', 'Data barang berhasil ditambahkan.!');
     }
 
     /**

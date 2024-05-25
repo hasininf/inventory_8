@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class PDFController extends Controller
 {
-    public function generatePDF()
+    public function generatePDF($id)
     {
         $users = User::get();
 
@@ -18,6 +18,7 @@ class PDFController extends Controller
         ->join('kategoris', 'barangs.kategoris_id', '=', 'kategoris.id')
         ->join('satuans', 'barangs.satuans_id', '=', 'satuans.id')
         ->select('transaksis.*', 'barangs.kode_barang', 'barangs.nama_barang', 'kategoris.kategori', 'satuans.satuan')
+        ->where('transaksis.status_transaksi','=',$id)
         ->get();
 
         $data = [
@@ -26,8 +27,14 @@ class PDFController extends Controller
             'users' => $laporans
         ];
 
-        $pdf = PDF::loadView('laporan.myPDF', $data);
-
-        return $pdf->download('itsolutionstuff.pdf');
+        $pdf = PDF::loadView('laporan.printpreview', $data);
+        $title = 'Laporan';
+        if($id==1){
+            $title = "Laporan Masuk";
+        }
+        else if($id==2){
+            $title = "Laporan Keluar";
+        }
+        return $pdf->download($title.'.pdf');
     }
 }

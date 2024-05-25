@@ -46,21 +46,17 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Barang</th>
-                                <th>Barang</th>
-                                <th>Barang</th>
-                                <th>Barang</th>
+                                <th>Kode Barang</th>
+                                <th>Nama Barang</th>
                                 <th>Status Transaksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($laporans as $row)
+                            @foreach ($barangs as $row)
                                 <tr>
                                     <td>{{ $no++ }}</td>
-                                    <td>{{ $row->tanggal_transaksi }}</td>
                                     <td>{{ $row->kode_barang }}</td>
                                     <td>{{ $row->nama_barang }}</td>
-                                    <td>{{ $row->kategori }}</td>
                                     <td>{{ $row->jumlah . ' ' . $row->satuan }}</td>
                                 </tr>
                             @endforeach
